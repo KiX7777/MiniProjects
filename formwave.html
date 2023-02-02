@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Formwave</title>
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        background-color: steelblue;
+        color: white;
+        display: flex;
+        align-items: center;
+        height: 100vh;
+        overflow: hidden;
+        font-family: 'Helvetica';
+        justify-content: center;
+      }
+
+      .container {
+        background-color: rgba(0, 0, 0, 0.4);
+        padding: 20px 40px;
+        border-radius: 5px;
+      }
+
+      .container h1 {
+        text-align: center;
+        margin-bottom: 30px;
+      }
+      .container a {
+        text-decoration: none;
+        color: lightblue;
+      }
+
+      .form-control {
+        position: relative;
+        margin: 20px 0;
+        width: 300px;
+      }
+
+      .form-control input {
+        background-color: transparent;
+        border: 0;
+        border-bottom: 2px white solid;
+        display: block;
+        width: 100%;
+        padding: 15px 0;
+        font-size: 18px;
+        color: white;
+      }
+
+      .form-control input:focus,
+      .form-control input:valid {
+        outline: 0;
+        border-bottom-color: lightblue;
+      }
+
+      .btn {
+        cursor: pointer;
+        display: inline-block;
+        width: 100%;
+        background: lightblue;
+        padding: 15px;
+        font-family: inherit;
+        font-size: 16px;
+        border-radius: 5px;
+        border: 0;
+      }
+
+      .btn:focus {
+        outline: 0;
+      }
+      .btn:active {
+        transform: scale(0.98);
+      }
+
+      .text {
+        margin-top: 30px;
+      }
+
+      .form-control label {
+        position: absolute;
+        top: 15px;
+        left: 0;
+      }
+
+      .form-control label span {
+        display: inline-block;
+        font-size: 18px;
+        min-width: 5px;
+        transition: 300ms cubic-bezier(0.68, -0.55, 0.265, 1.55);
+      }
+
+      .form-control input:focus + label span,
+      .form-control input:valid + label span {
+        color: lightblue;
+        transform: translateY(-30px);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Please Login</h1>
+      <form>
+        <div class="form-control">
+          <input type="text" required name="" id="" />
+          <label>Email</label>
+        </div>
+
+        <div class="form-control">
+          <input type="password" required name="" id="" />
+          <label>Password</label>
+        </div>
+
+        <button class="btn">Login</button>
+
+        <p class="text">Dont have an account? <a href="#">Register</a></p>
+      </form>
+    </div>
+    <script defer>
+      const labels = document.querySelectorAll('.form-control label');
+
+      labels.forEach((label) => {
+        label.innerHTML = label.innerText
+          .split('') //splits all letters
+          .map(
+            (letter, idx) =>
+              //creates span around each letter and sets transition delay; takes the index and multiplies it by 50 (e.g. 5*50 = 250ms)
+              `<span style="transition-delay:${idx * 50}ms">${letter}</span>`
+          )
+          .join(''); //joins all letters/spans
+      });
+    </script>
+  </body>
+</html>
