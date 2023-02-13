@@ -72,14 +72,15 @@
     const tagsEl = document.getElementById('tags');
     const textarea = document.getElementById('textarea');
 
-    textarea.focus();
+    textarea.focus(); //FOCUS ON TEXTAREA ON LOAD
     textarea.addEventListener('keyup', (e) => {
+      //
       createTags(e.target.value);
 
       if (e.key === 'Enter') {
         setTimeout(() => {
           e.target.value = '';
-        }, 10);
+        }, 10); //START RANDOM PICKER WHEN ENTER IS PRESSED
 
         randomSelect();
       }
@@ -87,17 +88,18 @@
 
     function createTags(input) {
       const tags = input
-        .split(',')
+        .split(',') // TAKE WHAT IS WRITTEN AND SPLIT IT WHEN COMMA IS WRITTEN
         .filter((tag) => tag.trim() !== '')
         .map((tag) => tag.trim());
 
       tagsEl.innerHTML = '';
 
       tags.forEach((tag) => {
+        //FOR EACH INPUT (SEPARATED BY COMMA) CREATE A NEW DOM ELEMENT
         const tagEl = document.createElement('span');
         tagEl.classList.add('tag');
         tagEl.innerText = tag;
-        tagsEl.appendChild(tagEl);
+        tagsEl.appendChild(tagEl); //APPEND THE ELEMENT TO THE DOM
       });
     }
 
@@ -105,18 +107,19 @@
       const times = 30;
 
       const interval = setInterval(() => {
-        const randomTag = pickRandomTag();
+        const randomTag = pickRandomTag(); //TAKE RANDOM TAG
 
-        highlightTag(randomTag);
+        highlightTag(randomTag); //HIGLIGHT IT
 
         setTimeout(() => {
-          unhighlightTag(randomTag);
+          unhighlightTag(randomTag); //AFTER 100 MS UNHIGHLIGHT IT
         }, 100);
       }, 100);
 
       setTimeout(() => {
         clearInterval(interval);
         setTimeout(() => {
+          //AFTER X SECONDS STOP THE RANDOM PICKER AND CHOOSE ONE FINAL TAG
           const randomTag = pickRandomTag();
           highlightTag(randomTag);
         }, 100);
@@ -124,6 +127,7 @@
     }
 
     function pickRandomTag() {
+      //TAKE ALL TAGS AND SELECT RANDOM ONE
       const tags = document.querySelectorAll('.tag');
       return tags[Math.floor(Math.random() * tags.length)];
     }
