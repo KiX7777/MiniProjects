@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Movie App</title>
+    <style>
+      @import url('https://fonts.googleapis.com/css?family=Muli&display=swap');
+
+      :root {
+        --primary: #22254b;
+        --secondary: #373b59;
+      }
+      * {
+        box-sizing: border-box;
+        padding: 0;
+      }
+      body {
+        font-family: 'Muli';
+        margin: 0;
+        /* background-color: var(--primary); */
+        background: #1a2980;
+        background: -webkit-linear-gradient(to top, #26d0ce, #1a2980);
+        background: linear-gradient(to top, #26d0ce, #1a2980);
+      }
+
+      header {
+        padding: 1rem;
+        display: flex;
+        justify-content: flex-end;
+        /* background-color: var(--secondary); */
+        background: #1488cc; /* fallback for old browsers */
+        background: -webkit-linear-gradient(
+          to top,
+          rgb(26, 41, 128),
+          hwb(202 8% 20%)
+        ); /* Chrome 10-25, Safari 5.1-6 */
+        background: linear-gradient(
+          to top,
+          #1a2980,
+          #1488cc
+        ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+      }
+
+      body::-webkit-scrollbar {
+        width: 8px;
+      }
+      body::-webkit-scrollbar-thumb {
+        background-color: rgba(0, 0, 0, 0.3);
+      }
+      body::-webkit-scrollbar-track {
+        background: #1a2980; /* fallback for old browsers */
+        background: -webkit-linear-gradient(
+          to top,
+          #26d0ce,
+          #1a2980
+        ); /* Chrome 10-25, Safari 5.1-6 */
+        background: linear-gradient(to top, #26d0ce, #1a2980);
+      }
+
+      body::-webkit-slider-thumb {
+        background-color: transparent;
+      }
+
+      @keyframes card {
+        from {
+          opacity: 0;
+          width: 0;
+        }
+        to {
+          opacity: 1;
+          width: 300px;
+        }
+      }
+
+      .search {
+        background-color: transparent;
+        border: 2px solid #26d0ce;
+        transition: 300ms ease;
+        border-radius: 50px;
+        font-family: inherit;
+        font-size: 1rem;
+        padding: 0.5rem 1rem;
+        color: white;
+      }
+
+      .search::placeholder {
+        color: #eee;
+      }
+      .search:focus {
+        outline: none;
+        background-color: #1a2980;
+      }
+
+      main {
+        display: flex;
+        scrollbar-color: transparent;
+
+        flex-wrap: wrap;
+      }
+      .movie {
+        width: 300px;
+        margin: 1rem;
+        background-color: var(--secondary);
+        box-shadow: 0 4px 5px rgba(0, 0, 0, 0.2);
+        position: relative;
+        overflow: hidden;
+        border-radius: 3px;
+      }
+      .movie img {
+        width: 100%;
+      }
+
+      .movie-info {
+        color: #eee;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0.5rem 1rem 1rem;
+        letter-spacing: 0.5px;
+      }
+
+      .movie-info h3 {
+        margin-top: 0;
+      }
+
+      .movie-info span {
+        background-color: var(--primary);
+        padding: 0.25rem 0.5rem;
+        border-radius: 3px;
+        font-weight: bold;
+      }
+      .movie-info span.green {
+        color: lightgreen;
+      }
+      .movie-info span.orange {
+        color: orange;
+      }
+      .movie-info span.red {
+        color: red;
+      }
+
+      .overview {
+        background-color: transparent;
+        padding: 2rem;
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        right: 0;
+        max-height: 100%;
+        transform: translateY(101%);
+        color: white;
+
+        transition: transform 300ms ease-in;
+      }
+
+      .movie:hover .overview {
+        transform: translateY(0);
+      }
+      .overview h3,
+      .overview p {
+        z-index: 3;
+        position: relative;
+      }
+
+      .blur {
+        position: absolute;
+        z-index: 1;
+        filter: blur(30px);
+        background-color: black;
+        background-color: rgba(0, 0, 0, 0.7);
+        /* opacity: 0.8; */
+        width: 100%;
+        top: 0;
+        left: 0;
+        height: 100%;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <form id="form">
+        <input type="text" placeholder="search" id="search" class="search" />
+      </form>
+    </header>
+
+    <main id="main"></main>
+  </body>
+  <script defer>
+    const form = document.getElementById('form');
+    const search = document.getElementById('search');
+    const main = document.getElementById('main');
+    const API_URL =
+      'https://api.themoviedb.org/3/discover/movie?sort_by=popularity.desc&api_key=cbeefb25dae4f9f99bc31cd0e71333f9&page=1';
+
+    const IMG_PATH = 'https://image.tmdb.org/t/p/w1280';
+    const SEARCH_URL =
+      'https://api.themoviedb.org/3/search/movie?&api_key=cbeefb25dae4f9f99bc31cd0e71333f9&query="';
+
+    getMovies(API_URL);
+
+    async function getMovies(url) {
+      const res = await fetch(url);
+      const data = await res.json();
+      showMovies(data.results);
+    }
+
+    function showMovies(movies) {
+      main.innerHTML = '';
+
+      movies.forEach((movie) => {
+        const { title, poster_path, vote_average, overview } = movie;
+
+        const movieEl = document.createElement('div');
+        movieEl.classList.add('movie');
+
+        movieEl.innerHTML = `
+             <img
+             src="${IMG_PATH + poster_path}"
+              alt="${title}"
+             />
+             <div class="movie-info">
+              <h3>${title}</h3>
+              <span class="${getClassByRate(
+                vote_average
+              )}">${vote_average.toFixed(1)}</span>
+             </div>
+               <div class="overview">
+                <div class="blur"></div>
+              <h3>Overview</h3>
+              <p>
+           ${overview}</p>
+               </div>
+             `;
+
+        main.appendChild(movieEl);
+      });
+    }
+
+    function getClassByRate(vote) {
+      if (vote >= 8) {
+        return 'green';
+      } else if (vote >= 5) {
+        return 'orange';
+      } else {
+        return 'red';
+      }
+    }
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+
+      const searchTerm = search.value;
+
+      if (searchTerm && searchTerm !== '') {
+        getMovies(SEARCH_URL + searchTerm);
+
+        search.value = '';
+      } else {
+        window.location.reload();
+      }
+    });
+  </script>
+</html>
