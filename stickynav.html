@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sticky Navbar</title>
+    <style>
+      * {
+        box-sizing: border-box;
+        padding: 0;
+      }
+      body {
+        height: 100vh;
+        font-family: 'Helvetica';
+        color: #222;
+        margin: 0;
+        padding-bottom: 50px;
+      }
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+
+      body::-webkit-scrollbar {
+        width: 10px;
+        border-radius: 10px;
+      }
+      body::-webkit-scrollbar-track {
+        background-color: purple;
+      }
+
+      body::-webkit-scrollbar-thumb {
+        background-color: rgba(255, 0, 0, 0.534);
+        border-radius: 10px;
+      }
+      .hero {
+        height: 100vh;
+        background-repeat: no-repeat;
+        background-image: url('https://cdn.autonomous.ai/static/upload/images/common/upload/20220212/How-To-Build-a-Dual-Ultra-Wide-Monitor-Setup_29edaf8fae7.jpg');
+        background-size: cover;
+        background-position: center;
+        color: #fff;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        position: relative;
+        margin-bottom: 20px;
+        z-index: -2;
+      }
+      .hero::before {
+        content: '';
+        height: 100%;
+        width: 100%;
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: -1;
+        background-color: rgba(0, 0, 0, 0.5);
+      }
+
+      .hero h1 {
+        font-size: 45px;
+        margin: -20px 0 20px;
+      }
+      .hero p {
+        font-size: 20px;
+        letter-spacing: 1px;
+      }
+      .content h2,
+      .content h3 {
+        font-size: 150%;
+        margin: 20px 0;
+      }
+      .content p {
+        color: #555;
+        line-height: 30px;
+        letter-spacing: 1.2px;
+      }
+
+      /* NAV */
+      .nav {
+        position: fixed;
+        background-color: rgba(255, 255, 255, 0.1);
+        top: 0;
+        left: 0;
+        right: 0;
+        transition: all 300ms ease-in-out;
+      }
+      .nav .container {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        color: #fff;
+        padding: 20px 0;
+        transition: all 300ms ease-in-out;
+      }
+      .nav ul {
+        display: flex;
+        list-style-type: none;
+        align-items: center;
+        justify-content: center;
+      }
+      .nav a {
+        color: white;
+        text-decoration: none;
+        transition: all 300ms ease-in-out;
+        padding: 7px 15px;
+      }
+
+      .nav.active {
+        background-color: rgba(255, 255, 255, 0.9);
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+      }
+      .nav.active a {
+        color: black;
+      }
+      .nav.active .container {
+        padding: 10px;
+      }
+
+      .nav a.current,
+      .nav a:hover {
+        color: red;
+        font-weight: bold;
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="nav">
+      <div class="container">
+        <h1 class="logo">
+          <a href="/stickynav.html">My website</a>
+        </h1>
+        <ul>
+          <li><a href="#" class="current">Home</a></li>
+          <li><a href="#">About</a></li>
+          <li><a href="#">Services</a></li>
+          <li><a href="#">Contact</a></li>
+        </ul>
+      </div>
+    </nav>
+    <div class="hero">
+      <div class="container">
+        <h1>Welcome to my website</h1>
+        <p>
+          Lorem, ipsum dolor sit amet consectetur adipisicing elit. Reiciendis,
+          voluptas.
+        </p>
+      </div>
+    </div>
+    <section class="container content">
+      <h2>Content One</h2>
+      <p>
+        Lorem ipsum, dolor sit amet consectetur adipisicing elit. Voluptatum
+        fugiat optio, ea qui non eaque quos commodi, doloremque ducimus enim
+        soluta consectetur eos ab a reprehenderit eveniet pariatur dicta
+        praesentium aliquam. Doloremque labore veniam aliquam, eveniet
+        architecto quas. Quae harum esse ullam. Quae a voluptatibus, magnam
+        cupiditate cum sit inventore exercitationem non eveniet rem consequuntur
+        excepturi culpa facere eos obcaecati quam. Eaque, voluptates obcaecati.
+        Nostrum reprehenderit ipsa eligendi quas hic voluptatum quaerat rerum
+        neque iure enim. Vel eum architecto ipsam autem voluptas labore,
+        inventore, magni sunt explicabo quisquam fuga nisi repudiandae, tempora
+        culpa voluptatibus dolores deserunt minima sint aliquam quasi.
+      </p>
+      <h3>Content Two</h3>
+      <p>
+        Lorem, ipsum dolor sit amet consectetur adipisicing elit. Eius
+        voluptatibus facere reiciendis laborum quam veniam facilis excepturi id
+        molestias quis unde ratione rem a, similique tenetur natus nulla atque
+        dolores distinctio voluptas nemo! Et quas molestiae dolores odio, eum
+        veniam maiores dignissimos tenetur, quae molestias consequuntur cum
+        deserunt nihil earum aliquam minus mollitia quia itaque, debitis
+        voluptas magnam ullam rerum facere? Deleniti numquam minus, rerum
+        tenetur cumque quo velit nulla repellendus labore quidem? Sequi
+        repellendus, vero optio harum est omnis quasi? Vel molestias, maxime
+        ullam iure, doloribus repellat blanditiis perferendis non quod sit
+        officia quis est nulla maiores a ducimus!
+      </p>
+    </section>
+  </body>
+  <script defer>
+    const nav = document.querySelector('.nav');
+    const h1 = document.querySelector('h1');
+    window.addEventListener('scroll', fixNav);
+
+    function fixNav() {
+      let navpos = nav.getBoundingClientRect().bottom;
+      let pos = h1.getBoundingClientRect().top;
+      let scr = navpos - pos;
+      if (window.scrollY > scr + nav.offsetHeight) {
+        nav.classList.add('active');
+        console.log('touching');
+      } else {
+        nav.classList.remove('active');
+        console.log('not');
+      }
+    }
+  </script>
+</html>
