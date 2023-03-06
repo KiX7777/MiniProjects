@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Toast notification</title>
+    <style>
+      * {
+        box-sizing: border-box;
+        padding: 0;
+        font-family: 'Helvetica';
+      }
+      body {
+        height: 100vh;
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        overflow: hidden;
+        background-color: lightcoral;
+        justify-content: center;
+        margin: 0;
+      }
+
+      .btn {
+        background-color: white;
+        color: coral;
+        font-family: inherit;
+        font-weight: bold;
+        padding: 1rem;
+        border-radius: 5px;
+        border: none;
+        cursor: pointer;
+      }
+
+      .btn:focus {
+        outline: none;
+      }
+      .btn:active {
+        transform: scale(0.98);
+      }
+
+      #toasts {
+        position: fixed;
+        bottom: 10px;
+        right: 10px;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+      }
+
+      .toast {
+        background-color: white;
+        border-radius: 5px;
+        padding: 1rem 2rem;
+        margin: 0.5rem;
+      }
+      .toast.info {
+        color: blue;
+      }
+      .toast.success {
+        color: green;
+      }
+      .toast.error {
+        color: red;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="toasts"></div>
+
+    <button class="btn" id="button">Show notification</button>
+  </body>
+  <script defer>
+    const button = document.getElementById('button');
+    const toasts = document.getElementById('toasts');
+
+    const messages = [
+      'Message One',
+      'Message Two',
+      'Message Three',
+      'Message Four',
+    ];
+
+    const types = ['info', 'success', 'error'];
+
+    button.addEventListener('click', () => createNotification());
+    function createNotification(msg = null, type = null) {
+      const notif = document.createElement('div');
+      notif.classList.add('toast');
+      notif.classList.add(type ? type : getRandomType());
+
+      notif.innerText = msg ? msg : getRandomMsg();
+
+      toasts.appendChild(notif);
+
+      setTimeout(() => {
+        notif.remove();
+      }, 3000);
+    }
+
+    function getRandomMsg() {
+      return messages[Math.floor(Math.random() * messages.length)];
+    }
+    function getRandomType() {
+      return types[Math.floor(Math.random() * types.length)];
+    }
+  </script>
+</html>
