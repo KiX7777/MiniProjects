@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Double click</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css"
+    />
+    <style>
+      * {
+        box-sizing: border-box;
+        padding: 0;
+      }
+      body {
+        height: 100vh;
+        overflow: hidden;
+        text-align: center;
+        margin: 0;
+      }
+      h3 {
+        margin-bottom: 0;
+        text-align: center;
+      }
+      small {
+        display: block;
+        margin-bottom: 20px;
+        text-align: center;
+      }
+
+      .fa-heart {
+        color: red;
+      }
+
+      .loveMe {
+        height: 440px;
+        width: 300px;
+        background: url('https://static.jutarnji.hr/images/slike/2022/12/27/27430555.png')
+          no-repeat center center/cover;
+        margin: auto;
+        cursor: pointer;
+        max-width: 100%;
+        position: relative;
+        box-shadow: 0 3px 7px rgba(0, 0, 0, 0.2);
+      }
+
+      .loveMe .fa-heart {
+        position: absolute;
+        animation: grow 599ms linear;
+        transform: translate(-50%, -50%) scale(0);
+      }
+
+      @keyframes grow {
+        to {
+          transform: translate(-50%, -50%) scale(10);
+          opacity: 0;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <h3>Double click on the image to <i class="fas fa-heart"></i>it</h3>
+
+    <small>You liked it <span id="times">0</span> times</small>
+    <div class="loveMe"></div>
+  </body>
+  <script defer>
+    const loveMe = document.querySelector('.loveMe');
+    const times = document.querySelector('#times');
+
+    let clickTime = 0;
+    let timesClicked = 0;
+
+    loveMe.addEventListener('click', (e) => {
+      if (clickTime === 0) {
+        clickTime = new Date().getTime();
+      } else {
+        if (new Date().getTime() - clickTime < 800) {
+          createHeart(e);
+          clickTime = 0;
+        } else {
+          clickTime = new Date().getTime();
+        }
+      }
+    });
+
+    function createHeart(e) {
+      const heart = document.createElement('i');
+      heart.classList.add('fas');
+      heart.classList.add('fa-heart');
+
+      const x = e.clientX;
+      const y = e.clientY;
+
+      const leftOffset = e.target.offsetLeft;
+      const topOffset = e.target.offsetTop;
+
+      const xInside = x - leftOffset; //get position relative to DIV
+      const yInside = y - topOffset;
+
+      heart.style.top = `${yInside}px`;
+      heart.style.left = `${xInside}px`;
+
+      loveMe.appendChild(heart);
+      times.innerHTML = ++timesClicked;
+
+      setTimeout(() => heart.remove(), 1000); //remove icon from DOM
+    }
+  </script>
+</html>
