@@ -201,6 +201,26 @@
         display: none;
         animation: show 400ms ease-out forwards;
       }
+
+      @media screen and (max-width: 500px) {
+        header {
+          align-items: center;
+          justify-content: center;
+        }
+        form {
+          width: 90%;
+        }
+        .search {
+          width: 100%;
+        }
+
+        .error {
+          top: 70px;
+          background-color: rgba(0, 0, 0, 0.7);
+          color: white;
+          z-index: 10;
+        }
+      }
     </style>
   </head>
   <body>
@@ -233,9 +253,11 @@
       const data = await res.json();
       if (data.results.length < 1) {
         error.style.display = 'block';
+        setTimeout(() => {
+          error.style.display = 'none';
+        }, 3000);
         return;
       }
-      error.style.display = 'none';
       showMovies(data.results);
     }
 
