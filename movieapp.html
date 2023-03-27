@@ -18,6 +18,7 @@
       }
       body {
         font-family: 'Muli';
+        position: relative;
         margin: 0;
         /* background-color: var(--primary); */
         background: #1a2980;
@@ -96,7 +97,7 @@
       main {
         display: flex;
         scrollbar-color: transparent;
-
+        justify-content: center;
         flex-wrap: wrap;
       }
       .movie {
@@ -106,8 +107,19 @@
         box-shadow: 0 4px 5px rgba(0, 0, 0, 0.2);
         position: relative;
         overflow: hidden;
-        border-radius: 3px;
+        border-radius: 10px;
+        animation: show 400ms ease-out forwards;
       }
+
+      @keyframes show {
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
+      }
+
       .movie img {
         width: 100%;
       }
@@ -176,21 +188,37 @@
         left: 0;
         height: 100%;
       }
+
+      .error {
+        position: absolute;
+        color: white;
+        top: 10px;
+        left: 50%;
+        transform: translateX(-50%);
+        background-color: rgba(0, 0, 0, 0.2);
+        border-radius: 10px;
+        padding: 5px;
+        display: none;
+        animation: show 400ms ease-out forwards;
+      }
     </style>
   </head>
   <body>
     <header>
       <form id="form">
-        <input type="text" placeholder="search" id="search" class="search" />
+        <input type="text" placeholder="Search" id="search" class="search" />
       </form>
     </header>
-
+    <div class="error">
+      <p>No results for that query</p>
+    </div>
     <main id="main"></main>
   </body>
   <script defer>
     const form = document.getElementById('form');
     const search = document.getElementById('search');
     const main = document.getElementById('main');
+    const error = document.querySelector('.error');
     const API_URL =
       'https://api.themoviedb.org/3/discover/movie?sort_by=popularity.desc&api_key=cbeefb25dae4f9f99bc31cd0e71333f9&page=1';
 
@@ -203,6 +231,11 @@
     async function getMovies(url) {
       const res = await fetch(url);
       const data = await res.json();
+      if (data.results.length < 1) {
+        error.style.display = 'block';
+        return;
+      }
+      error.style.display = 'none';
       showMovies(data.results);
     }
 
