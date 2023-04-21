@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" /content="width=device-width, initial-scale=1.0" />
+    <title>Verify Account</title>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Muli:wght@300;700&display=swap');
+
+      * {
+        box-sizing: border-box;
+        padding: 0;
+        margin: 0;
+      }
+      body {
+        height: 100vh;
+        font-family: 'Muli';
+        display: flex;
+        align-items: center;
+        background-color: #333;
+        justify-content: center;
+        margin: 0;
+        overflow: hidden;
+      }
+
+      .container {
+        background-color: #333;
+        border: 3px solid #eee;
+        border-radius: 10px;
+        padding: 30px;
+        max-width: 1000px;
+        color: #eee;
+        text-align: center;
+      }
+
+      .code-container {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 40px 0;
+        padding: 20px;
+      }
+
+      .code {
+        border-radius: 5px;
+        font-size: 75px;
+        height: 120px;
+        background-color: #eaeaea;
+        width: 100px;
+        margin: 1%;
+        text-align: center;
+        font-weight: 300;
+        -moz-appearance: textfield;
+      }
+
+      .code::-webkit-outer-spin-button,
+      .code::-webkit-inner-spin-button {
+        appearance: none;
+        margin: 0;
+      }
+
+      .code:valid {
+        border-color: #34db63;
+        box-shadow: 0 10px 10px -5px rgba(255, 255, 255, 0.35);
+      }
+
+      .info {
+        background-color: #eaeaea;
+        display: inline-block;
+        padding: 10px;
+        line-height: 20px;
+        max-width: 400px;
+        color: #333;
+        border-radius: 5px;
+      }
+
+      @media (max-width: 599px) {
+        .code-container {
+          flex-wrap: wrap;
+        }
+        .code {
+          height: 80px;
+          max-width: 70px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h2>Verify Your Account</h2>
+      <p>
+        We emailed you the six digit code to peroperic@gmail.com <br />
+        Enter the code below to confirm your email address.
+      </p>
+      <div class="code-container">
+        <input
+          type="number"
+          class="code"
+          placeholder="0"
+          min="0"
+          max="9"
+          required
+        />
+        <input
+          type="number"
+          class="code"
+          placeholder="0"
+          min="0"
+          max="9"
+          required
+        />
+        <input
+          type="number"
+          class="code"
+          placeholder="0"
+          min="0"
+          max="9"
+          required
+        />
+        <input
+          type="number"
+          class="code"
+          placeholder="0"
+          min="0"
+          max="9"
+          required
+        />
+        <input
+          type="number"
+          class="code"
+          placeholder="0"
+          min="0"
+          max="9"
+          required
+        />
+        <input
+          type="number"
+          class="code"
+          placeholder="0"
+          min="0"
+          max="9"
+          required
+        />
+      </div>
+      <small class="info"
+        >This is design only. We did not actually send you an email as we do not
+        have your email.
+      </small>
+    </div>
+  </body>
+  <script defer>
+    const codes = document.querySelectorAll('.code');
+
+    codes[0].focus();
+
+    codes.forEach((code, idx) => {
+      code.addEventListener('keydown', (e) => {
+        if (e.key >= 0 && e.key <= 9) {
+          codes[idx].value = '';
+          setTimeout(() => {
+            codes[idx + 1].focus();
+          }, 10);
+        } else if (e.key === 'Backspace') {
+          setTimeout(() => {
+            codes[idx - 1].focus();
+          }, 10);
+        }
+      });
+    });
+  </script>
+</html>
